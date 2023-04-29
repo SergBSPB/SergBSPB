@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+{% load bootstrap_icons %}
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Наблюдения по безопасности</title>
+    <link type="text/css" href="{% static 'observations/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'observations/js/bootstrap.bundle.min.js' %}"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.3.min.js"-->
+<!--            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="-->
+<!--            crossorigin="anonymous"></script>-->
+</head>
+    <body>
+
+<div class="container">
+     <div class="row">
+              <div class="col-xl-12 col-md-12 col-sm-12 text-center">
+                  <img src="{% static 'observations/images/logo_origin.png' %}" class="img-fluid img-thumbnail" alt="Logo">
+              </div>
+              <div class="col-xl-12 col-md-12 col-sm-12">
+                  <br>
+                  <br>
+                  <h3 class="text-center">Добро пожаловать в систему наблюдений по безопасности! <br>
+                      Для регистрации или входа, нажмите
+                      <a href="{% url 'login' %}"><h5 class="fw-bolder">сюда</h5></a></h3>
+              </div>
+              <div class="col-xl-3 col-md-6 col-sm-12"></div>
+        </div>
+</div>
+
+
+<!--<div class="container-fluid my-carousel">-->
+<!--    <div class="row row-cols-11 mb-3 pt-5">-->
+<!--        <div class="col-xl-2 col-md-6 col-sm-12"></div>-->
+<!--        <div class="col-xl-8 col-md-12 col-sm-12">-->
+<!--            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">-->
+<!--                  <div class="carousel-indicators">-->
+<!--                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"-->
+<!--                            class="active" aria-current="true" aria-label="Slide 1"></button>-->
+<!--                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"-->
+<!--                            aria-label="Slide 2"></button>-->
+<!--                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"-->
+<!--                            aria-label="Slide 3"></button>-->
+<!--                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"-->
+<!--                            aria-label="Slide 4"></button>-->
+<!--                  </div>-->
+<!--                  <div class="carousel-inner">-->
+<!--                    <div class="carousel-item active">-->
+<!--                       <img src="{% static 'observations/images/panorama_2.jpg' %}" class="d-block w-100" style="height: 300px" alt="Panorama" >-->
+<!--                    </div>-->
+<!--                    <div class="carousel-item">-->
+<!--                      <img src="{% static 'observations/images/top_setnovo.jpg' %}" class="d-block w-100" style="height: 300px" alt="Setnovo_mill">-->
+<!--                    </div>-->
+<!--                    <div class="carousel-item">-->
+<!--                      <img src="{% static 'observations/images/Setnovo_3.jpg' %}" class="d-block w-100" style="height: 300px" alt="Setnovo_panarama">-->
+<!--                    </div>-->
+<!--                    <div class="carousel-item">-->
+<!--                      <img src="{% static 'observations/images/wagon.jpg' %}" class="d-block w-100" style="height: 300px" alt="Wagon">-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">-->
+<!--                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                    <span class="visually-hidden">Previous</span>-->
+<!--                  </button>-->
+<!--                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">-->
+<!--                    <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                    <span class="visually-hidden">Next</span>-->
+<!--                  </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-xl-1 col-md-6 col-sm-12"></div>-->
+<!--    </div>-->
+
+<!--    <div class="row row-cols-10 mb-3 pt-5">-->
+<!--        <div class="col-xl-2 col-md-6 col-sm-12"></div>-->
+<!--        <div class="col-xl-8 col-md-6 col-sm-12">-->
+<!--        <p class="lead">  <strong><mark>Сетново Групп</mark></strong>— российская динамично развивающаяся лесопромышленная компания.-->
+<!--                Основная ее деятельность заключается в производстве лесопильной продукции в условиях устойчивого-->
+<!--                лесопользования на предприятиях в Республике Карелия и в Новгородской области...-->
+<!--            Компании принадлежат лесопильные заводы <em>«Сетново»</em> (пос. Неболчи, Новгородская область)-->
+<!--            <em>«Сетлес»</em>(пос. Импилахти, Республика Карелия), лесозаготовительные предприятия-->
+<!--            <em>«Ладэнсо»</em>(Республика Карелия) и <em>«Олонецлес»</em> (Республика Карелия),-->
+<!--            отдел логистики, собственный большой парк ж/д вагонов.-->
+<!--            Общее количество работников на заводах и в лесозаготовительных компаниях составляет около 570 человек.-->
+<!--            Офисы компании располагаются в Республике Карелия, в Новгородской области и в Санкт-Петербурге.</p>-->
+<!--        </div>-->
+<!--        <div class="col-xl-2 col-md-6 col-sm-12"></div>-->
+<!--    </div>-->
+<!--</div>--

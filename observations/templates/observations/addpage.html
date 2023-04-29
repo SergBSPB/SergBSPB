@@ -1,0 +1,93 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Форма наблюдений</title>
+    <link type="text/css" href="{% static 'observations/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'observations/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
+</head>
+    <body>
+        <div class="container">
+                <div class="row mb-3">
+                      <div class="col-xl-2 col-md-6 col-sm-12">
+                          <img src="{% static 'observations/images/logo.png' %}" alt="logo" width="125" height="95">
+                      </div>
+                      <div class="col-xl-6 col-md-6 col-sm-12">
+                      <br>
+                          <h3 class="text-center">Форма наблюдения по безопасности</h3>
+                      </div>
+                      <div class="col-xl-4 col-md-6 col-sm-12"></div>
+                </div>
+        </div>
+
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                         <a href="{% url 'list_observation' %}" class="btn btn-outline-primary" role="button">
+                             Реестр наблюдений</a>
+                         <br><br>
+                         <a href="{% url 'employee_observation' %}" class="btn btn-outline-primary" role="button">
+                             Мои наблюдения</a>
+                         <br><br>
+                         <a href="{% url 'manager_observation' %}" class="btn btn-outline-primary" role="button">
+                             Работа с наблюдениями</a>
+                         <br><br>
+                         <a href="{% url 'advanced_list' %}" class="btn btn-outline-primary" role="button">
+                             Расширенный реестр</a>
+                         <br><br>
+                         <a href="{% url 'report' %}" class="btn btn-outline-primary" role="button">Отчёты</a>
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <form action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group col-md-8 mb-0">
+                            {{ form.users_organization|as_crispy_field }}
+                            {{ form.users_department|as_crispy_field }}
+                            {{ form.date_viewed|as_crispy_field }}
+                            {{ form.category|as_crispy_field }}
+                            {{ form.character|as_crispy_field }}
+                            {{ form.dialog|as_crispy_field }}
+                            {{ form.view|as_crispy_field }}
+                            {{ form.site|as_crispy_field }}
+                            {% render_field form.place class="custom-select mb-4" autocomplete="off" %}
+                            {{ form.description|as_crispy_field }}
+                            {{ form.probability|as_crispy_field }}
+                            {{ form.effects|as_crispy_field }}
+                            {{ form.risk|as_crispy_field }}
+                            {{ form.correction|as_crispy_field }}
+                            {{ form.manager|as_crispy_field }}
+                            {{ form.date_closed_target|as_crispy_field }}
+                            {{ form.photo1|as_crispy_field }}
+                            {{ form.photo2|as_crispy_field }}
+                            {{ form.photo3|as_crispy_field }}
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                        <script>
+                            $(document).ready(function() {
+                                var probability_field = $("#{{ form.probability.auto_id }}");
+                                var effects_field = $("#{{ form.effects.auto_id }}");
+                                var risk_field = $("#{{ form.risk.auto_id }}");
+                                probability_field.change( function(){
+                                    risk_field.val(effects_field.val() * probability_field.val())
+                                })
+                                effects_field.change( function(){
+                                    risk_field.val(effects_field.val() * probability_field.val())
+                                })
+                            })
+                        </script>
+                    </div>
+                </div>
+        </div>
+    </body>
+</html>

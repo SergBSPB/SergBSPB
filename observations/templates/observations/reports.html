@@ -1,0 +1,68 @@
+{% extends 'observations/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="container">
+        <div class="row mb-5">
+              <div class="col-xl-2 col-md-6 col-sm-12"></div>
+              <div class="col-xl-6 col-md-6 col-sm-12">
+              <br><br>
+                  <h3 class="text-center">Отчёты</h3>
+              </div>
+            <div class="col-xl-4 col-md-6 col-sm-12 h6"><br><br>Общее количество наблюдений за период: {{ obs_count }}</div>
+        </div>
+</div>
+
+<div class="container">
+        <div class="row mb-3">
+            <div class="col-xl-3 col-md-6 col-sm-12">
+            <br>
+                 <a href="{% url 'list_observation' %}" class="btn btn-outline-primary" role="button">
+                     Реестр наблюдений</a>
+                 <br><br>
+                 <a href="{% url 'employee_observation' %}" class="btn btn-outline-primary" role="button">
+                     Мои наблюдения</a>
+                 <br><br>
+                 <a href="{% url 'manager_observation' %}" class="btn btn-outline-primary" role="button">
+                     Работа с наблюдениями</a>
+                 <br><br>
+                     <a href="{% url 'advanced_list' %}" class="btn btn-outline-primary" role="button">
+                     Расширенный реестр</a>
+
+            </div>
+            <div class="col-xl-9 col-md-12 col-sm-12">
+                <form action="{% url 'report' %}" method="GET">
+                    {% crispy form %}
+                </form>
+                {{ chart_0 | safe }}
+                <br>
+                {{ chart | safe }}
+                <br>
+                {{ chart_2 | safe }}
+                <br>
+                <h4 class="text-center">Наблюдения сотрудников по категориям</h4>
+                <br>
+                <table class="table">
+                      <thead>
+                      <tr>
+                          <th>Сотрудник</th>
+                          <th>Категория</th>
+                          <th>Количество наблюдений</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                            {% for item in pd_table %}
+                                <tr>
+                                  <td>{{ item.owner__last_name }}</td>
+                                  <td>{{ item.category__name }}</td>
+                                  <td>{{ item.owner_count_2 }}</td>
+                                  </tr>
+                            {% endfor %}
+                      </tbody>
+                  </table>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

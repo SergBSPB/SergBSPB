@@ -1,0 +1,159 @@
+{% extends 'observations/base.html' %}
+{% block content %}
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 0px;
+}
+
+tr:nth-child(even) {
+  background-color: #f77c0f52;
+}
+</style>
+
+<br>
+
+<div class="row">
+    <div class="col">
+      <h4 class="text-end">Реестр наблюдений</h4>
+    </div>
+    <div class="col">
+            <h6 class="text-danger">Новых: {{ manager_total.new }}</h6>
+            <h6 class="text-success">Открытых: {{ manager_total.open }}</h6>
+    </div>
+</div>
+
+<!--<div>-->
+<!--    <p class="fs-5">Всего отобрано наблюдений: {{ object_list.count }}</p>-->
+<!--</div>-->
+<div class="col-xl-3 col-md-6 col-sm-12 px-3">
+  <form method="GET">
+      {{ filter_form.as_table }}
+      <button type="submit" class="btn btn-secondary btn-sm" id="submit-id-submit">Применить</button>
+  </form>
+</div>
+
+<div class="row px-3">
+  <div>
+      <table
+        id = "table"
+        data-toggle="table"
+        data-filter-control="true"
+        data-show-fullscreen="true"
+        data-show-filter-control-switch="true"
+        data-search="true"
+        data-show-export="true"
+        data-export-types = ['excel']
+        data-search-highlight="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-buttons-align="right"
+        data-show-footer="true">
+        <thead>
+              <tr>
+                  <th data-footer-formatter="idFormatter">№</th>
+                  <th data-field="owner" data-filter-control="select"
+                      data-footer-formatter="nameFormatter"
+                      data-halign="center">Создатель</th>
+                  <th data-field="users_organization" data-filter-control="select" data-halign="center">Организация</th>
+                  <th data-field="users_department" data-filter-control="select" data-halign="center">Участок создателя</th>
+                  <th data-field="character" data-filter-control="select" data-halign="center">Характер</th>
+                  <th data-field="dialog" data-filter-control="select" data-halign="center">Диалог</th>
+                  <th data-field="category" data-filter-control="select" data-halign="center">Категория</th>
+                  <th data-field="probability" data-filter-control="input" data-halign="center">Вероятность</th>
+                  <th data-field="effects" data-filter-control="input" data-halign="center">Последствия</th>
+                  <th data-field="risk" data-filter-control="input" data-halign="center">Риск</th>
+                  <th data-field="view" data-filter-control="select" data-halign="center">Вид</th>
+                  <th data-field="site" data-filter-control="select" data-halign="center">Участок наблюдения</th>
+                  {% if users_organization_form_id == 2 %}
+                    <th data-field="place" data-filter-control="select" data-halign="center">Место наблюдения</th>
+                  {% endif %}
+                  <th data-halign="center">Описание</th>
+                  <th data-halign="center">Влияние</th>
+                  <th data-field="control" data-filter-control="select" data-halign="center">Контроль</th>
+                  <th data-field="manager" data-filter-control="select" data-halign="center">Руководитель</th>
+                  <th data-field="date_viewed" data-halign="center" data-filter-control="input">Дата наблюдения</th>
+                  <th data-field="date_created" data-filter-control="datepicker" data-halign="center">Дата создания</th>
+                  <th data-halign="center" data-filter-control="input">Дата закрытия-цель</th>
+                  <th data-halign="center" data-filter-control="input">Дата закрытия-факт</th>
+                  <th data-halign="center">Корректирующее мероприятие</th>
+                  <th data-field="status" data-filter-control="select" data-halign="center">Статус</th>
+                  <th data-halign="center">Фото</th>
+              </tr>
+        </thead>
+        <tbody>
+                {% for observation in object_list %}
+                    <tr>
+                          {% if observation.owner == request.user and observation.status != "Completed" %}
+                            <td><a href="{% url 'addition_observation' observation.id %}">
+                              {{ observation.id }}</a></td>
+                          {% elif manager_check == True and observation.status != "Completed" %}
+                            <td><a href="{% url 'close_observation' observation.id %}">
+                                {{ observation.id }}</a></td>
+                          {% else %}
+                            <td><a href="{% url 'detail_observation' observation.id %}">
+                                {{ observation.id }}</a></td>
+                          {% endif %}
+                          <td>{{ observation.owner }}</td>
+                          <td>{{ observation.users_organization }}</td>
+                          <td>{{ observation.users_department }}</td>
+                          <td>{{ observation.character }}</td>
+                          <td>{{ observation.get_dialog_display}}</td>
+                          <td>{{ observation.category }}</td>
+                          <td>{{ observation.probability }}</td>
+                          <td>{{ observation.effects }}</td>
+                           {% if observation.risk < 9 %}
+                                <td>{{ observation.risk }}</td>
+                           {% elif observation.risk > 8 and observation.risk < 16 %}
+                                <td style="background-color:yellow">{{ observation.risk }}</td>
+                           {% elif observation.risk > 15 %}
+                                <td class="text-bg-danger">{{ observation.risk }}</td>
+                           {% endif %}
+                          <td>{{ observation.view|default_if_none:"" }}</td>
+                          <td>{{ observation.site }}</td>
+                          {% if users_organization_form_id == 2 %}
+                             <td>{{ observation.place | default_if_none:"" }}</td>
+                          {% endif %}
+                          <td>{{ observation.description | truncatewords:20 }}</td>
+                          <td>{{ observation.correction | truncatewords:5 }}</td>
+                          <td>{{ observation.control|default_if_none:"" }}</td>
+                          <td>{{ observation.manager }}</td>
+                          <td>{{ observation.date_viewed }}</td>
+                          <td>{{ observation.date_created }}</td>
+                          <td>{{ observation.date_closed_target }}</td>
+                          <td>{{ observation.date_closed_fact|default_if_none:"" }}</td>
+                          <td>{{ observation.corr_action }}</td>
+                              {% if observation.status == "New" %}
+                                <td class="text-bg-danger">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Progress" %}
+                                <td style="background-color:yellow">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Postponed" %}
+                                <td style="background-color:orange">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Rejected" %}
+                                <td class="text-bg-secondary">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Completed" %}
+                                <td class="text-bg-success">{{ observation.get_status_display }}</td>
+                              {% else %}
+                                <td>{{ observation.get_status_display }}</td>
+                              {% endif %}
+
+                          {% if observation.photo1 %}
+                            <td><img class="img-article-left thumb"
+                                   src="{{ observation.photo1.url }}"
+                                   width="100%"></td>
+                          {% endif %}
+                    </tr>
+                {% endfor %}
+          </tbody>
+      </table>
+  </div>
+</div>
+{% endblock %}

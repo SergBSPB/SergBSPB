@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+{% load bootstrap_icons %}
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Успешная подача наблюдения!</title>
+    <link type="text/css" href="{% static 'observations/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'observations/js/bootstrap.bundle.min.js' %}"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.3.min.js"-->
+<!--            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="-->
+<!--            crossorigin="anonymous"></script>-->
+</head>
+    <body>
+            <div class="container">
+                 <div class="row mb-5">
+                    <div class="col-xl-4 col-md-8 col-sm-12"></div>
+                    <div class="col-xl-4 col-md-8 col-sm-12 text-center text-success">
+                        <br><br><br>
+                        {% bs_icon 'bookmark-check'  size='2.5em' %}
+                        <p class="h3"> Вы успешно подали наблюдение! </p>
+                        <br><br>
+                        <a href="{% url 'add_page' %}" class="btn btn-outline-primary" role="button">
+                           Вернуться к форме подачи наблюдений</a>
+                        <br><br>
+                        <a href="{% url 'list_observation' %}" class="btn btn-outline-primary" role="button">
+                           Вернуться к реестру наблюдений</a>
+                    </div>
+                    <div class="col-xl-4 col-md-8 col-sm-12"></div>
+                 </div>
+            </div>
+    </body>
+</html>

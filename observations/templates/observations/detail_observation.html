@@ -1,0 +1,180 @@
+{% extends 'observations/base.html' %}
+{% block content %}
+
+<div class="container">
+        <div class="row mb-5">
+              <div class="col-xl-2 col-md-6 col-sm-12"></div>
+              <div class="col-xl-6 col-md-6 col-sm-12">
+              <br><br>
+                    {% if observation.status == "Completed" %}
+                    <h4 class="text-center text-danger">Наблюдение № {{ observation.pk }} - ЗАКРЫТО</h4>
+                    {% else %}
+                    <h4 class="text-center text-success">Наблюдение № {{ observation.pk }} - В РАБОТЕ</h4>
+                    {% endif %}
+              </div>
+              <div class="col-xl-4 col-md-6 col-sm-12"></div>
+        </div>
+</div>
+<div class="container">
+        <div class="row">
+              <div class="col-xl-3 col-md-6 col-sm-12">
+              <br>
+                 <a href="{% url 'list_observation' %}" class="btn btn-outline-primary" role="button">
+                     Реестр наблюдений</a>
+                 <br><br>
+                 <a href="{% url 'employee_observation' %}" class="btn btn-outline-primary" role="button">
+                     Наблюдения для сотрудника</a>
+                 <br><br>
+                 <a href="{% url 'manager_observation' %}" class="btn btn-outline-primary" role="button">
+                     Наблюдения для руководителя</a>
+                 <br><br>
+                     <a href="{% url 'advanced_list' %}" class="btn btn-outline-primary" role="button">
+                     Расширенный реестр</a>
+                 <br><br>
+                     <a href="{% url 'report' %}" class="btn btn-outline-primary" role="button">Отчёты</a>
+              </div>
+              <div class="col-xl-9 col-md-12 col-sm-12">
+               <table class="table">
+                      <tr>
+                          <td>Создатель наблюдения:</td>
+                          <td>{{ observation.owner }}</td>
+                      </tr>
+                       <tr>
+                          <td>Организация создателя наблюдения:</td>
+                          <td>{{ observation.users_organization }}</td>
+                      </tr>
+                      <tr>
+                          <td>Участок создателя наблюдения:</td>
+                          <td>{{ observation.users_department }}</td>
+                      </tr>
+                       <tr>
+                          <td>Характер:</td>
+                          <td>{{ observation.get_character_display }}</td>
+                       </tr>
+                       <tr>
+                          <td>Был диалог:</td>
+                          <td>{{ observation.get_dialog_display}}</td>
+                       </tr>
+                       <tr>
+                          <td>Категория:</td>
+                          <td>{{ observation.category }}</td>
+                       </tr>
+                       <tr>
+                          <td>Вероятность:</td>
+                          <td>{{ observation.probability }}</td>
+                       </tr>
+                       <tr>
+                          <td>Последствия:</td>
+                          <td>{{ observation.effects }}</td>
+                       </tr>
+                       <tr>
+                          <td>Степень риска:</td>
+                           {% if observation.risk < 9 %}
+                                <td>{{ observation.risk }}</td>
+                           {% elif observation.risk > 8 and observation.risk < 16 %}
+                                <td style="background-color:yellow">{{ observation.risk }}</td>
+                           {% elif observation.risk > 15 %}
+                                <td class="text-bg-danger">{{ observation.risk }}</td>
+                           {% endif %}
+                       </tr>
+                       <tr>
+                          <td>Вид:</td>
+                          <td>{{ observation.view|default_if_none:"" }}</td>
+                       </tr>
+                       <tr>
+                          <td>Участок наблюдения:</td>
+                          <td>{{ observation.site }}</td>
+                       </tr>
+                       {% if observation.users_organization.id == 2 %}
+                        <td>Место наблюдения:</td>
+                        <td>{{ observation.place|default_if_none:"" }}</td>
+                        {% else %}
+                        {% endif %}
+                       <tr>
+                          <td>Описание:</td>
+                          <td>{{ observation.description }}</td>
+                       </tr>
+                       <tr>
+                          <td>Влияние:</td>
+                          <td>{{ observation.correction }}</td>
+                       </tr>
+                       <tr>
+                          <td>Контроль:</td>
+                          <td>{{ observation.control|default_if_none:"" }}</td>
+                       </tr>
+                       <tr>
+                          <td>Руководитель:</td>
+                          <td>{{ observation.manager }}</td>
+                       </tr>
+                      <tr>
+                          <td>Дата наблюдения:</td>
+                          <td>{{ observation.date_viewed }}</td>
+                       </tr>
+                      <tr>
+                          <td>Дата создания:</td>
+                          <td>{{ observation.date_created }}</td>
+                       </tr>
+                      <tr>
+                          <td>Дата закрытия - цель:</td>
+                          <td>{{ observation.date_closed_target }}</td>
+                       </tr>
+                      <tr>
+                          <td>Дата закрытия - факт:</td>
+                          <td>{{ observation.date_closed_fact|default_if_none:"" }}</td>
+                       </tr>
+                      <tr>
+                          <td>Корректирующее мероприятие:</td>
+                          <td>{{ observation.corr_action }}</td>
+                       </tr>
+                       <tr>
+                          <td>Статус:</td>
+                              {% if observation.status == "New" %}
+                                <td class="text-bg-danger">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Progress" %}
+                                <td style="background-color:yellow">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Postponed" %}
+                                <td style="background-color:orange">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Rejected" %}
+                                <td class="text-bg-secondary">{{ observation.get_status_display }}</td>
+                              {% elif observation.status == "Completed" %}
+                                <td class="text-bg-success">{{ observation.get_status_display }}</td>
+                              {% else %}
+                                <td>{{ observation.get_status_display }}</td>
+                              {% endif %}
+                       </tr>
+                       <tr>
+                       {% if observation.photo1 %}
+                       <td>Фото1:</td>
+                       <td><img class="img-article-left thumb" src="{{ observation.photo1.url }}" width="50%"></td>
+                       {% endif %}
+                       </tr>
+                       <tr>
+                       {% if observation.photo2 %}
+                       <td>Фото2:</td>
+                       <td><img class="img-article-left thumb" src="{{ observation.photo2.url }}" width="50%"></td>
+                       {% endif %}
+                       </tr>
+                       <tr>
+                       {% if observation.photo3 %}
+                       <td>Фото3:</td>
+                       <td><img class="img-article-left thumb" src="{{ observation.photo3.url }}" width="50%"></td>
+                       {% endif %}
+                       </tr>
+                       <tr>
+                       {% if observation.photo4 %}
+                       <td>Фото4:</td>
+                       <td><img class="img-article-left thumb" src="{{ observation.photo4.url }}" width="50%"></td>
+                       {% endif %}
+                       </tr>
+                       <tr>
+                       {% if observation.photo5 %}
+                       <td>Фото5:</td>
+                       <td><img class="img-article-left thumb" src="{{ observation.photo5.url }}" width="50%"></td>
+                       {% endif %}
+                       </tr>
+                      </table>
+              </div>
+        </div>
+</div>
+
+{% endblock %}

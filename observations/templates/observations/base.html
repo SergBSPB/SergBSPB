@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Система Наблюдений по безопасности</title>
+    <link type="text/css" href="{% static 'observations/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/bootstrap-table.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/bootstrap-table-filter-control.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'observations/css/bootstrap-table-sticky-header.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link type="text/css" href="{% static 'observations/css/style.css' %}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-chained/1.0.1/jquery.chained.min.js"
+            integrity="sha512-rcWQG55udn0NOSHKgu3DO5jb34nLcwC+iL1Qq6sq04Sj7uW27vmYENyvWm8I9oqtLoAE01KzcUO6THujRpi/Kg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.0"
+            integrity="sha384-aOxz9UdWG0yBiyrTwPeMibmaoq07/d3a96GCbb9x60f3mOt5zwkjdbcHFnKH8qls"
+            crossorigin="anonymous"></script>
+
+    <script src="{% static 'observations/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'observations/js/bootstrap-table.min.js' %}"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="{% static 'observations/js/bootstrap-table-filter-control.min.js' %}"></script>
+    <script src="{% static 'observations/js/bootstrap-table-sticky-header.min.js' %}"></script>
+    <script src="{% static 'observations/js/bootstrap-table-toolbar.min.js' %}"></script>
+    <script src="{% static 'observations/js/bootstrap-table-export.min.js' %}"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+
+    <script>
+
+          $(function() {
+            $('#table').bootstrapTable()
+            })
+
+          function idFormatter() {
+             return 'Всего:'
+            }
+
+          function nameFormatter(data) {
+             return data.length
+            }
+
+    </script>
+</head>
+
+<body>
+ <header>
+    <div class="container">
+        <div class="row row-cols-12 align-items-xl-end" >
+            <div class="col-xl-1 col-md-6 col-sm-12">
+                <img src="{% static 'observations/images/logo.png' %}" alt="logo" width="125" height="95">
+            </div>
+            <div class="col-xl-2 col-md-4 col-sm-8"></div>
+
+            {% if request.user.is_authenticated %}
+            <div class="col-xl-1 col-md-2 col-sm-4">
+                <a href="/addpage" class="text-secondary">
+                    <h5 class="fw-bolder">Наблюдения</h5></a>
+<!--                <div class="line_4"></div>-->
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-12">
+                <h5 class="text-secondary d-flex flex-row-reverse fw-bolder">
+                    {{user.last_name}} {{user.first_name}} |</h5>
+            </div>
+            <div class="col-xl-1 col-md-4 col-sm-12 px-0">
+                <a href="{% url 'logout' %}" class="text-secondary d-flex flex-row">
+                <h5 class="fw-bolder">Выйти</h5></a>
+            </div>
+            {% else %}
+
+<!--            <div class="col-xl-2 col-md-4 col-sm-12 pe-0">-->
+<!--                <a href="{% url 'register' %}" class="text-secondary d-flex flex-row-reverse">-->
+<!--                <h5 class="fw-bolder">Регистрация</h5></a>-->
+<!--            </div>-->
+            {% endif %}
+
+        </div>
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
